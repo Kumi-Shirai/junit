@@ -28,17 +28,31 @@ class RangeTest {
 	void tearDown() throws Exception {
 	}
 
+	//TrueとFalseそれぞれのテストケースで分ける
+	
 	@ParameterizedTest
-	@ValueSource(doubles = {-0.1, 0.0, 10.5, 10.6 })
+	@ValueSource(doubles = {0.0, 10.5})
 	void test1(double arg) {
 		Range range = new Range(0.0, 10.5);
 		assertTrue(range.contains(arg),"失敗");
 	}
 	@ParameterizedTest
-	@ValueSource(doubles = {-5.2, -5.1, 5.1, 5.2})
+	@ValueSource(doubles = {-0.1, 10.6 })
 	void test2(double arg) {
+		Range range = new Range(0.0, 10.5);
+		assertFalse(range.contains(arg),"失敗");
+	}
+	@ParameterizedTest
+	@ValueSource(doubles = { -5.1, 5.1})
+	void test3(double arg) {
 		Range range = new Range(-5.1, 5.1);
 		assertTrue(range.contains(arg),"失敗");
+	}
+	@ParameterizedTest
+	@ValueSource(doubles = {-5.2, 5.2})
+	void test4(double arg) {
+		Range range = new Range(-5.1, 5.1);
+		assertFalse(range.contains(arg),"失敗");
 	}
 
 }

@@ -18,7 +18,7 @@ class EmployeeTest {
 	@Test
 	void test() {
 		InputStream sytemin = System.in;
-		InputStream fileStream1 = new FileInputStream("/junit/src/main/java/junit/tutorial/ex02/e02/employee.txt");
+		InputStream fileStream1 = new FileInputStream("Employee.txt");
 		List<Employee> list = Employee.load(fileStream1);
 		assertAll("employee",
 			() -> assertEquals("Ichiro",list.get(0),"失敗"),
