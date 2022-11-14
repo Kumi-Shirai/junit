@@ -15,7 +15,7 @@ class EmployeeTest {
 
 	@Test
 	void test() {
-		InputStream systemin = System.in;
+		InputStream systemin = System.in;//いらない
 		InputStream input = getClass().getResourceAsStream("Employee.txt");
 		List<Employee> list = Employee.load(input);
 		assertAll("employee",

@@ -2,6 +2,7 @@ package junit.tutorial.ex03.e02;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.doThrow;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.log;
 
@@ -38,23 +39,26 @@ class LogAnalyzerTest {
 
 	
 	@InjectMocks
-	AnalyzeException analyzeException;
+	LogAnalyzer logAnalyzer = new LogAnalyzer();
 	
 	@Mock
-//	LogAnalyzer logAnalyzer;
 	LogLoader logLoader;
 	
 	@Test
 	void test() throws Exception{
-		LogAnalyzer logAnalyzer = new LogAnalyzer();
-		doThrow(new IOException()).when(logLoader).load(null);
-		assertThrows(AnalyzeException.class,() -> logAnalyzer.analyze(null));
-	}
-	@Test
-	void test2(){
-		LogAnalyzer logAnalyzer = new LogAnalyzer();
-		AnalyzeException e = assertThrows(AnalyzeException.class,() -> logAnalyzer.analyze(null));
-		assertEquals(IOException.class, e.addSuppressed(analyzeException), "失敗しました");
+		doThrow(new IOException("aaa")).when(logLoader).load("aaaaa");
+		AnalyzeException e = assertThrows(AnalyzeException.class,() -> logAnalyzer.analyze("aaaaa"));
+	
+		/*
+		 * AnalyzeExceptionごと取り出してしまっているため、メッセージの前にJava.io.IOException: がつく
+		 * String m = e.getMessage(); 
+		 * System.out.println(m); 
+		 * assertEquals("java.io.IOException: aaa", m);
+		 */
+		
+		Throwable throwable = e.getCause(); //AnalyzeExceptionの引数で設定している。Exceptionのスーパークラス
+		assertTrue(throwable instanceof IOException);
+		assertEquals("aaa", throwable.getMessage());
 	}
 
 }
