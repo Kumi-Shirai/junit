@@ -15,13 +15,13 @@ class EmployeeTest {
 
 	@Test
 	void test() {
-		InputStream sytemin = System.in;
-		InputStream fileStream1 = new FileInputStream("");
-		List<Employee> list = Employee.load(fileStream1);
+		InputStream systemin = System.in;
+		InputStream input = getClass().getResourceAsStream("Employee.txt");
+		List<Employee> list = Employee.load(input);
 		assertAll("employee",
-			() -> assertEquals("Ichiro",list.get(0),"失敗"),
-			() -> assertEquals("Tanaka",list.get(1),"失敗"),
-			() -> assertEquals("ichiro@example.com",list.get(2),"失敗")
+			() -> assertEquals("Ichiro",list.get(0).getFirstName(),"失敗"),
+			() -> assertEquals("Tanaka",list.get(0).getLastName(),"失敗"),
+			() -> assertEquals("ichiro@example.com",list.get(0).getEmail(),"失敗")
 				);
 		
 //		fileStream1.close();
