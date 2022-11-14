@@ -11,5 +11,15 @@ class StringUtilsTest {
 		String result = StringUtils.toSnakeCase("aaa");
 		assertEquals("aaa", result,"テストケース1　失敗");
 	}
+	@Test
+	void test2() {
+		String result = StringUtils.toSnakeCase("HelloWorld");
+		assertEquals("hello_world", result,"テストケース2　失敗");
+	}
+	@Test
+	void test3() {
+		String result = StringUtils.toSnakeCase("practiceJunit");
+		assertEquals("practice_junit", result,"テストケース3　失敗");
+	}
 
 }
