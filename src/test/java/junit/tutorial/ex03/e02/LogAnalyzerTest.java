@@ -1,7 +1,9 @@
 package junit.tutorial.ex03.e02;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.doThrow;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.log;
 
 import java.io.IOException;
 
@@ -36,16 +38,23 @@ class LogAnalyzerTest {
 
 	
 	@InjectMocks
-	LogAnalyzer logAnalyzer;
+	AnalyzeException analyzeException;
 	
 	@Mock
-	AnalyzeException analyzeException;
+//	LogAnalyzer logAnalyzer;
+	LogLoader logLoader;
 	
 	@Test
 	void test() throws Exception{
-//		doThrow(new IOException()).when(logLoader).load("a.none");
 		LogAnalyzer logAnalyzer = new LogAnalyzer();
-		assertThrows(IOException.class,() -> logAnalyzer.analyze(null));
+		doThrow(new IOException()).when(logLoader).load(null);
+		assertThrows(AnalyzeException.class,() -> logAnalyzer.analyze(null));
+	}
+	@Test
+	void test2(){
+		LogAnalyzer logAnalyzer = new LogAnalyzer();
+		AnalyzeException e = assertThrows(AnalyzeException.class,() -> logAnalyzer.analyze(null));
+		assertEquals(IOException.class, e.addSuppressed(analyzeException), "失敗しました");
 	}
 
 }
